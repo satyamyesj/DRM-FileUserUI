@@ -6,7 +6,7 @@
                 <h1>Hello</h1>
             </div>
             <div class="col-md-6">
-                <h1>Hello 3</h1>
+                <h1>Hello 4</h1>
             </div>
         </div>
         </div>
