@@ -27,8 +27,6 @@
 
 <script>
 import { mapActions } from "vuex";
-//import store from "../store";
-import axios from "axios";
 
 export default {
     name:"fileUserRegistration",
@@ -41,7 +39,7 @@ export default {
         }
     },
     methods:{
-        ...mapActions(["registerFileUser"]),
+        ...mapActions(["register_file_user"]),
         onSubmit(e){
             e.preventDefault();
             const fileUserInstance={
@@ -50,15 +48,7 @@ export default {
                 last_name:this.last_name,
                 password:this.password
             }
-            //this.registerFileUser(fileUserInstance);
-            try{
-                axios.post("http://127.0.0.1:3002/api/file_user_registration",fileUserInstance);
-                console.log("success");
-                window.location.href="/";
-            }
-            catch(err){
-                console.log("Reg-File-User-Err:"+err);
-            }
+            this.register_file_user(fileUserInstance);
         }
     }
 }
