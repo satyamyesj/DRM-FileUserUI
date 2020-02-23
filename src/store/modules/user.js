@@ -17,43 +17,47 @@ const getters = {
 const actions = {
     async register_file_user({ commit }, user_profile) {
         const response = await axios.post("http://127.0.0.1:3002/api/file_user_registration", user_profile)
-        //  var file_user_asset={
-        //     "$class": "org.ownershiprecord.network.FileUser",
-        //     "id": response.data.user_profile.id,
-        //     "firstName": response.data.user_profile.first_name,
-        //     "lastName": response.data.user_profile.last_name
-        //  }
+        var user_id="fu"+(response.data.user_profile.id).toString();
+        var file_user_asset={
+            "$class": "org.ownershiprecord.network.FileUser",
+            "id": user_id,
+            "firstName": response.data.user_profile.first_name,
+            "lastName": response.data.user_profile.last_name
+         }
         console.log(response.data.user_profile);
-        //const rep=await axios.post("http://localhost:3000/api/FileUser",file_user_asset);
-        //console.log(rep);
-        commit('set_user_profile', response.data)
+        const rep=await axios.post("http://localhost:3000/api/FileUser",file_user_asset);
+        console.log(rep);
+        await commit('set_user_profile', response.data.user_profile);
     },
     async login_file_user({ commit }, user_profile) {
         const response = await axios.post("http://127.0.0.1:3002/api/file_user_login", user_profile)
         console.log(response.data.user_profile);
-        commit('set_user_profile', response.data)
+        await commit('set_user_profile', response.data.user_profile);
     },
     async query_pending_request({ commit }) {
-        //var id=state.user_profile.id;
-        var id = "fu1";
+        var id="fu"+(state.user_profile.id).toString();
+        //var id = "fu1";
         const response = await axios.get("http://localhost:3000/api/PendingRequest?filter=%7B%22where%22%3A%7B%22fileUser%22%3A%22resource%3Aorg.ownershiprecord.network.FileUser%23" + id + "%22%7D%7D")
         // console.log(response.data);
-        // console.log(response.data[0]);
+         console.log(response.data[0]);
         // console.log(response.data.length);
         commit('set_pending_request', response.data)
     },
     async query_file_right({ commit }) {
-        //var id=state.user_profile.id;
-        var id = "fu1";
+        var id="fu"+(state.user_profile.id).toString();
+        //var id = "fu1";
         const response = await axios.get("http://localhost:3000/api/FileRight?filter=%7B%22where%22%3A%7B%22fileUser%22%3A%22resource%3Aorg.ownershiprecord.network.FileUser%23" + id + "%22%7D%7D")
         // console.log(response.data);
-        // console.log(response.data[0]);
+         console.log(response.data[0]);
         // console.log(response.data.length);
         commit('set_file_right', response.data)
     },
-    async query_request_access(state,request_access_instance) {
-        var r_id = "r5";
-        var user_id = "fu2";
+    async query_request_access({state},request_access_instance) {
+        const res= await axios.get("http://127.0.0.1:3002/api/get_request_id")
+        console.log(res.data);
+        var r_id="pr"+(res.data.request_id).toString();
+        var user_id="fu"+(state.user_profile.id).toString();
+        //user_id = "fu1";
         var request_access = {
             "$class": "org.ownershiprecord.network.RequestAccess",
             "requestId": r_id,
@@ -63,7 +67,7 @@ const actions = {
         }
         console.log(request_access);
         const response=await axios.post("http://localhost:3000/api/RequestAccess",request_access);
-        console.log(response.body);
+        console.log(response);
     }
 }
 

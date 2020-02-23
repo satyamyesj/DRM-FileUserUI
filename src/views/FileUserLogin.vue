@@ -12,7 +12,10 @@
                 <label>Password</label>
                 <input type="password" v-model="password" class="form-control" required>
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary">Login</button>
+        </form>
+        <form id="registerForm" @submit="doRegister">
+            <br><button type="submit" class="btn btn-primary">Register</button>
         </form>
     </div>
 </template>
@@ -37,11 +40,17 @@ export default {
                 password:this.password
             }
             this.login_file_user(fileUserInstance);
+        },
+        doRegister(e){
+            e.preventDefault();
+            window.location.href = "/#/fileUserRegistration";
         }
     }
 }
 </script>
 
 <style scoped>
-
+#registerForm{
+    margin-top: 2px;
+}
 </style>
